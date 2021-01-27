@@ -6,6 +6,7 @@ Projekt będzie polegał na stworzeniu sklepu z panelem administracji. W dalszej
 * `Panel Admina` służy do zarządzania Produktami
 * `Produkt` - są to przedmioty, który można przeglądać i kupować w naszym sklepie. Wybierz sobie czy mają to być samochody, koszulki, buty, komputery - nie ma większego znaczenia :) Każdy produkt należy do określonej Kategorii, czyli np. Dom, Ogród, Biuro
 
+Opis wideo znajduje się w sekcji Materiały Dodatkowe, lekcja `Sesja Q&A 27.01.2021` na platformie kursowej.
 
 ## Wymagania
 * Po wejściu na stronę główną użytkownik widzie 4 sekcje:
@@ -44,10 +45,18 @@ Projekt będzie polegał na stworzeniu sklepu z panelem administracji. W dalszej
 
 W folderze `components` znajdą się komponenty wykorzystywane przez Front i Panel Admina. Jest to więc biblioteka komponentów wykorzystywanych zarówno na Froncie, jak i Panelu Admina. Do projektu możesz doinstalować [Storybook]( https://storybook.js.org/) i napisać stories.
 
-# Mocking
+## Mocking
 Wszystkie dane będą zmockowane i będziemy je serwowali za pomocą [Mock Service Workera](https://mswjs.io/). Skorzystaj z [tego przykładu](https://github.com/mswjs/examples/tree/master/examples/rest-react) do wdrożenia.
 
-## API
+### Endpoints
+Poniej znajdują się przykładowe endpointy po stronie Frontu:
+* GET /categories - lista kategorii
+* GET /products - lista produktów
+* GET /products/recommended - rekomendowane produkty
+* GET /products/:productId - pobieranie informacji o danym produkcie, gdzie jego identyfikator to `:productId`
+* POST /orders - wysyłamy informacje o zamówieniu (np. jakie i ile produktów) i zamawiającym
+
+### API
 Do zaprojektowania struktury API polecam narzędzia:
 * [Postman](https://www.postman.com/)
 * [Insomnia](https://insomnia.rest/)
@@ -56,7 +65,7 @@ Do zaprojektowania struktury API polecam narzędzia:
 ### API Docs
 Możemy stworzyć dokumentacje do API za pomocą narzędzia [Swagger](https://swagger.io/) w formacie Open API 3.0
 
-### API client
+## API client
 Do komunikacji wykorzystajmy bibliotekę [axios](https://github.com/axios/axios) w taki sposób, aby istniały dwie instancje - jedna do przeglądania ofert, a druga dostępna z poziomu panelu administratora (będzie wysyłała dodatkowy nagłówek, co opisałem w części z panelem administracyjnym)
 
 ## Unit tests
@@ -68,9 +77,9 @@ Stworzy testy integracyjne dla niektórych ścieżek w Cypress – np. przejści
 ## Panel administratora
 Logowanie do będzie odbywało się za pomocą maila i hasła (w trybie mocków może być to po prostu admin/admin). Przekaż obiekt użytkownika do komponentów Panelu admina (korzystając np. z Contextu)
 
-Informację o tym, czy użytkownik jest zalogowany zachowaj w localStorage. Informacja powinna być zrealizowana w następujący sposób:
+Informację o tym, czy użytkownik jest zalogowany zachowaj w localStorage/sessionStorage. Informacja powinna być zrealizowana w następujący sposób:
 
-Jeśli w localstorage istnieje klucz `accessToken` z ustawioną wartością uuid (możesz ją wygenerować np. tutaj: https://www.uuidgenerator.net/) to znaczy, że użytkownik jest zalogowany.
+Jeśli w localstorage/sessionStorage istnieje klucz `accessToken` z ustawioną wartością uuid (możesz ją wygenerować np. tutaj: https://www.uuidgenerator.net/) to znaczy, że użytkownik jest zalogowany.
 
 Taką wartość możesz przechowywać w [zmiennych środowiskowych](https://create-react-app.dev/docs/adding-custom-environment-variables/)
 
@@ -97,7 +106,7 @@ const headers = {
 
 Ten drugi sposób jest zbliżony do [Json Web Token](https://jwt.io/), standardu który jest wykorzystywany w wielu aplikacjach. Rekomenduję zapoznać się z dokumentacją.
 
-* Dla chętnych: później zamiast localstorage możemy wykorzysta cookies do zapisywania tokenu i jego odczytywania.
+* Dla chętnych: później zamiast localstorage/sessionStorage możemy wykorzysta cookies do zapisywania tokenu i jego odczytywania.
 
 Z poziomu panelu administratora będziemy mogli zarządza Produktami oraz Kategoriami. Będziemy musieli więc stworzy CRUD (Create, Read, Update, Delete) czyli widoki do przeglądania listy, przeglądania poszczególnego produktu, jego edycji oraz usunięcia. Przyda się też wyszukiwanie na liście.
 
